@@ -13,7 +13,7 @@ router.get('/', async (req, res) => {
   } catch (err) {
     res.status(500).json(err)
   }
-});
+})
 
 //finds just a specific user with everything that is referenced to them
 router.get('/:id', async (req, res) => {
@@ -49,29 +49,27 @@ router.get('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json(err)
   }
-});
-
+})
 
 //creates a new user
-router.post('/', async (req, res) =>{
-    try{
-        const newUser = User.create({
-            username: req.body.username,
-            password: req.body.password
-        })
-        if(newUser){
-            req.session.save(() => {
-                req.session.user_id = newUser.id
-                req.session.username = newUser.username
-                req.session.loggedIn = true
-                res.json(newUser)
-            })
-        }
-    }catch(err){
-        res.status(500).json(err)
+router.post('/', async (req, res) => {
+  try {
+    const newUser = await User.create({
+      username: req.body.username,
+      password: req.body.password
+    })
+    if (newUser) {
+      req.session.save(() => {
+        req.session.user_id = newUser.id
+        req.session.username = newUser.username
+        req.session.loggedIn = true
+        res.status(200).json(newUser)
+      })
     }
-});
-
+  } catch (err) {
+    res.status(500).json(err)
+  }
+})
 
 router.post('/login', async (req, res) => {
   try {
@@ -97,9 +95,7 @@ router.post('/login', async (req, res) => {
   } catch (err) {
     res.status(500).json(err)
   }
-});
-
-
+})
 
 router.post('/logout', (req, res) => {
   if (req.session.loggedIn) {
@@ -109,6 +105,6 @@ router.post('/logout', (req, res) => {
   } else {
     res.status(404).end()
   }
-});
+})
 
 module.exports = router
