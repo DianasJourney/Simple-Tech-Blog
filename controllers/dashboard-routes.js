@@ -1,50 +1,87 @@
-const router = require("express").Router();
-const { Post } = require("../models");
-const withAuth = require("../utils/auth");
+const router = require('express').Router();
+const { Post, User, Comment } = require('../models');
+const withAuth = require('../utils/auth');
 
-router.get("/", withAuth, (req, res) => {
+router.get('/', withAuth, (req, res) => {
     Post.findAll({
-      where: {
-        userId: req.session.userId
-      }
-    })
-      .then(dbPostData => {
-        const posts = dbPostData.map((post) => post.get({ plain: true }));
-        
-        res.render("all-posts-admin", {
-          layout: "dashboard",
-          posts
+            where: {
+                user_id: req.session.user_id
+            },
+            attributes: [
+                'id',
+                'title',
+                'content',
+                'created_at'
+            ],
+            include: [{
+                    model: Comment,
+                    attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+                    include: {
+                        model: User,
+                        attributes: ['username']
+                    }
+                },
+                {
+                    model: User,
+                    attributes: ['username']
+                }
+            ]
+        })
+        .then(dbPostData => {
+// A getter is a get() function defined for one column
+            const posts = dbPostData.map(post => post.get({ plain: true }));
+            res.render('dashboard', { posts, loggedIn: true });
+            // res.render('dashboard');
+        })
+        .catch(err => {
+            console.log(err);
+            res.status(500).json(err);
         });
-      })
-      .catch(err => {
-        console.log(err);
-        res.redirect("login");
-      });
-  });
+});
 
-  router.get("/new", withAuth, (req, res) => {
-    res.render("new-post", {
-      layout: "dashboard"
-    });
-  });
-  
-  router.get("/edit/:id", withAuth, (req, res) => {
-    Post.findByPk(req.params.id)
-      .then(dbPostData => {
-        if (dbPostData) {
-          const post = dbPostData.get({ plain: true });
-          
-          res.render("edit-post", {
-            layout: "dashboard",
-            post
-          });
-        } else {
-          res.status(404).end();
+// when a user clicks to edit a specific id, make sure hey are logged in
+router.get('/edit/:id', withAuth, async (req, res) => {
+  try {
+    const postData = await Post.findOne({
+      where: {
+        id: req.params.id
+      },
+      attributes: ['id', 'title', 'content', 'created_at'],
+      include: [
+        {
+          model: User,
+          attributes: ['username']
+        },
+        {
+          model: Comment,
+          attributes: [
+            'id',
+            'comment_text',
+            'post_id',
+            'user_id',
+            'created_at'
+          ],
+          include: {
+            model: User,
+            attributes: ['username']
+          }
         }
-      })
-      .catch(err => {
-        res.status(500).json(err);
-      });
-  });
-  
+      ]
+    })
+    if (!postData) {
+      res.status(400).json({ message: 'Sorry there is no post with this id' })
+    } else {
+      const post = postData.get({ plain: true })
+      res.render('edit-post', { post, loggedIn: true })
+    }
+  } catch (err) {
+    res.status(500).json(err)
+  }
+});
+
+// when a user clicks /new to add a post, render that page
+router.get('/new', (req, res) => {
+    res.render('add-post');
+});
+
 module.exports = router;

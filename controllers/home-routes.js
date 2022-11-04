@@ -1,62 +1,82 @@
-const router = require("express").Router();
-const { Post, Comment, User } = require("../models");
+const { Post, User, Comment } = require('../models');
+const router = require('express').Router();
 
-// get all posts for homepage
-router.get("/", (req, res) => {
-  Post.findAll({
-    include: [User],
-  })
-    .then((dbPostData) => {
-      const posts = dbPostData.map((post) => post.get({ plain: true }));
-
-      res.render("all-posts", { posts });
+router.get('/', async (req, res) => {
+  try {
+    const postData = await Post.findAll({
+      attributes: ['id', 'title', 'content', 'created_at'],
+      include: [
+        {
+          model: Comment,
+          attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+          include: {
+            model: User,
+            attributes: ['username']
+          }
+        },
+        {
+          model: User,
+          attributes: ['username']
+        }
+      ]
     })
-    .catch((err) => {
-      res.status(500).json(err);
-    });
+    if (postData) {
+      const posts = postData.map(post => post.get({ plain: true }))
+      res.render('homepage', { posts, loggedIn: req.session.loggedIn })
+    } else {
+      res.status(400).end()
+    }
+  } catch (err) {
+    res.status(500).json(err)
+  }
 });
 
-// get single post
-router.get("/post/:id", (req, res) => {
-  Post.findByPk(req.params.id, {
-    include: [
-      User,
-      {
-        model: Comment,
-        include: [User],
+
+router.get('/login', (req, res) => {
+  if (req.session.loggedIn) {
+    res.redirect('/')
+    return
+  }
+  res.render('login')
+})
+
+// same as our login page, except signup counts as a login
+router.get('/signup', (req, res) => {
+  res.render('signup')
+});
+
+router.get('/post/:id', async (req, res) => {
+  try {
+    const postData = await Post.findOne({
+      where: {
+        id: req.params.id
       },
-    ],
-  })
-    .then((dbPostData) => {
-      if (dbPostData) {
-        const post = dbPostData.get({ plain: true });
-
-        res.render("single-post", { post });
-      } else {
-        res.status(404).end();
-      }
+      attributes: ['id', 'content', 'title', 'created_at'],
+      include: [
+        {
+          model: Comment,
+          attributes: ['id', 'comment_text', 'post_id', 'user_id', 'created_at'],
+          include: {
+            model: User,
+            attributes: ['username']
+          }
+        },
+        {
+          model: User,
+          attributes: ['username']
+        }
+      ]
     })
-    .catch((err) => {
-      res.status(500).json(err);
-    });
-});
-
-router.get("/login", (req, res) => {
-  if (req.session.loggedIn) {
-    res.redirect("/");
-    return;
+    if (!postData) {
+      res.status(400).json({ message: 'Unable to find post with this id' })
+    } else {
+      const post = postData.get({ plain: true })
+      res.render('single-post', { post, loggedIn: req.session.loggedIn })
+    }
+  } catch (err) {
+    res.status(500).json(err)
   }
-
-  res.render("login");
 });
 
-router.get("/signup", (req, res) => {
-  if (req.session.loggedIn) {
-    res.redirect("/");
-    return;
-  }
 
-  res.render("signup");
-});
-
-module.exports = router;
+module.exports = router

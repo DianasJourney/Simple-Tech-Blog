@@ -1,0 +1,17 @@
+.form-signin {
+    width: 100%;
+    max-width: 3300px;
+    padding: 20px;
+}
+
+#custom-header{
+  color: rgb(135, 0, 0);
+  margin: auto;
+}
+
+#custom-content{
+  text-align: left;
+  margin-left: 22px;
+  margin-top: 3px;
+  margin-bottom: 3px;
+}
