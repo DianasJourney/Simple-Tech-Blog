@@ -5,7 +5,7 @@ Tech Blog is a blog application that anyone, anywhere can use. Whether for perso
 
 ### Table Of Contents
 - [Installation](#installation)
-- [Tests](#tests)
+- [Usage](#usage)
 - [UserStory](#userstory)
 - [AcceptanceCriteria](#acceptancecriteria)
 - [Questions](#questions)
@@ -14,9 +14,7 @@ Tech Blog is a blog application that anyone, anywhere can use. Whether for perso
 
 ## Installation
 The following technologies needed will be:
-1. Vscode
 2. Node.js
-3. Package.json
 4. Dotenv
 5. Sequelize
 6. mysql2
@@ -26,7 +24,7 @@ The following technologies needed will be:
 10. Express - session
 11. connect-session-sequelize
 
-## Tests
+## Usage
 
 
 

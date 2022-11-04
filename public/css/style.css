@@ -1,3 +1,7 @@
+body {
+  background-color: rgb(197, 197, 197);
+}
+
 .form-signin {
     width: 100%;
     max-width: 3300px;
@@ -5,8 +9,8 @@
 }
 
 #custom-header{
-  color: rgb(135, 0, 0);
-  margin: auto;
+  color: rgb(71, 91, 246);
+  font-family: cursive;
 }
 
 #custom-content{
