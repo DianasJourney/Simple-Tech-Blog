@@ -43,43 +43,4 @@ router.post('/', withAuth, async (req, res) => {
   }
 });
 
-// updates comment
-router.put('/:id', withAuth, async (req, res) => {
-  try {
-    const commentData = Comment.update(
-      {
-        comment: req.body.comment_text
-      },
-      {
-        where: {
-          id: req.params.id
-        }
-      }
-    )
-    if (!commentData) {
-      res.status(400).json({ message: 'unable to find comment id' })
-    }
-    res.json(commentData)
-  } catch (err) {
-    res.status(500).json(err)
-  }
-});
-
-// delete comment
-router.delete('/:id', withAuth, async (req, res) => {
-  try {
-    const commentData = await Comment.destroy({
-      where: {
-        id: req.params.id
-      }
-    })
-    if (!commentData) {
-      res.status(400).json({ message: 'Unable to find comment with id' })
-    }
-    res.json(commentData)
-  } catch (err) {
-    res.status(500).json(err)
-  }
-});
-
 module.exports = router
