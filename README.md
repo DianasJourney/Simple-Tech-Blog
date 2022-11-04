@@ -1,7 +1,7 @@
-## Tech Blog
+## Simple Tech Blog
 
 ### Overview
-Tech Blog is a blog application that anyone, anywhere can use. Whether for personal reasons or private reasons this application allows users to be able to blog about anything. Users can post and delete as much as they want! Tech Blog is also a website where it will require users to create an account before being able to view or post anything. 
+Simple Tech Blog is a blog application that anyone, anywhere can use. Whether for personal reasons or private reasons this application allows users to be able to blog about anything. Users can post and delete as much as they want! Tech Blog is also a website where it will require users to create an account before being able to view or post anything. 
 
 ### Table Of Contents
 - [Installation](#installation)
