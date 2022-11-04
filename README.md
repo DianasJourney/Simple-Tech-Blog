@@ -27,6 +27,17 @@ The following technologies needed will be:
 ## Usage
 
 
+To use this application click the link below:
+https://mvc-blog-heroku.herokuapp.com/
+
+Users will need to sign up and create an account before being able to access the dashboard, comment and create post. All you need is a username and a password!
+
+To make comments to a post, click the post you are viewing and it will direct you to another page with comments enabled.
+
+
+![3d394223c7b64a05c381653db157ec40](https://user-images.githubusercontent.com/109758045/200079739-a29a8a11-a512-49c2-8e15-a22399115a2b.png)
+
+
 
 
 ## UserStory
