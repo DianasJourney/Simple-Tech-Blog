@@ -76,9 +76,5 @@ router.get('/edit/:id', withAuth, async (req, res) => {
   }
 });
 
-// when a user clicks /new to add a post, render that page
-router.get('/new', (req, res) => {
-    res.render('add-post');
-});
 
 module.exports = router;
