@@ -15,11 +15,11 @@ async function loginFormHandler (event) {
     })
 
     if (response.ok) {
-      document.location.replace('/dashboard')
+      document.location.replace('/dashboard');
     }
   }
 }
 
 document
   .querySelector('#login-form')
-  .addEventListener('submit', loginFormHandler)
+  .addEventListener('submit', loginFormHandler);

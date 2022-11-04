@@ -1,4 +1,4 @@
-const { Comment } = require('../models')
+const { Comment } = require('../models');
 
 const commentData = [
   {
@@ -15,6 +15,6 @@ const commentData = [
 
 const seedComments = () => Comment.bulkCreate(commentData)
 
-module.exports = seedComments
+module.exports = seedComments;
 
 //adding in seed data to see what our comments post and users will look like

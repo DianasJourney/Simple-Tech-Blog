@@ -1,6 +1,6 @@
-const router = require('express').Router()
-const { Comment } = require('../../models')
-const withAuth = require('../../utils/auth')
+const router = require('express').Router();
+const { Comment } = require('../../models');
+const withAuth = require('../../utils/auth');
 
 
 //gets all comments
@@ -11,7 +11,7 @@ router.get('/', async (req, res) => {
   } catch (err) {
     res.status(500).json(err)
   }
-})
+});
 
 // view a specific comment
 router.get('/:id', async (req, res) => {
@@ -25,7 +25,7 @@ router.get('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json(err)
   }
-})
+});
 
 // requires users to be logged in before being able to post a comment
 router.post('/', withAuth, async (req, res) => {
@@ -41,7 +41,7 @@ router.post('/', withAuth, async (req, res) => {
       res.status(500).json(err)
     }
   }
-})
+});
 
 // updates comment
 router.put('/:id', withAuth, async (req, res) => {
@@ -63,7 +63,7 @@ router.put('/:id', withAuth, async (req, res) => {
   } catch (err) {
     res.status(500).json(err)
   }
-})
+});
 
 // delete comment
 router.delete('/:id', withAuth, async (req, res) => {
@@ -80,6 +80,6 @@ router.delete('/:id', withAuth, async (req, res) => {
   } catch (err) {
     res.status(500).json(err)
   }
-})
+});
 
 module.exports = router

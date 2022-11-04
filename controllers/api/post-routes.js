@@ -28,7 +28,7 @@ router.get('/', async (req, res) => {
   } catch (err) {
     res.status(500).json(err)
   }
-})
+});
 
 //finds one post
 router.get('/:id', async (req, res) => {
@@ -60,7 +60,7 @@ router.get('/:id', async (req, res) => {
   } catch (err) {
     res.status(500).json(err)
   }
-})
+});
 
 //this function creates a post as long as the user is logged in
 router.post('/', withAuth, async (req, res) => {
@@ -74,7 +74,7 @@ router.post('/', withAuth, async (req, res) => {
   } catch (err) {
     res.status(500).json(err)
   }
-})
+});
 
 
 //this will enable users to update a post 
@@ -98,7 +98,7 @@ router.put('/:id', withAuth, async (req, res) => {
   } catch (err) {
     res.status(500).json(err)
   }
-})
+});
 
 //delete the users post
 router.delete('/:id', withAuth, async (req, res) => {
@@ -115,6 +115,6 @@ router.delete('/:id', withAuth, async (req, res) => {
   } catch (err) {
     res.status(500).json(err)
   }
-})
+});
 
 module.exports = router
