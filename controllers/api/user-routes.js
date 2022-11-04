@@ -1,7 +1,7 @@
 const router = require('express').Router()
 const { User, Post, Comment } = require('../../models')
 
-
+// finds all the users excluding their password
 router.get('/', async (req, res) => {
   try {
     const allUser = await User.findAll({
@@ -15,7 +15,7 @@ router.get('/', async (req, res) => {
   }
 });
 
-
+//finds just a specific user with everything that is referenced to them
 router.get('/:id', async (req, res) => {
   try {
     const oneUser = await User.findOne({
@@ -52,6 +52,7 @@ router.get('/:id', async (req, res) => {
 });
 
 
+//creates a new user
 router.post('/', async (req, res) =>{
     try{
         const newUser = User.create({
@@ -70,6 +71,7 @@ router.post('/', async (req, res) =>{
         res.status(500).json(err)
     }
 });
+
 
 router.post('/login', async (req, res) => {
   try {

@@ -1,7 +1,8 @@
-const router = require('express').Router()
-const { User, Post, Comment } = require('../../models')
-const withAuth = require('../../utils/auth')
+const router = require('express').Router();
+const { User, Post, Comment } = require('../../models');
+const withAuth = require('../../utils/auth');
 
+//finds all post
 router.get('/', async (req, res) => {
   try {
     const allPost = await Post.findAll({
@@ -29,6 +30,7 @@ router.get('/', async (req, res) => {
   }
 })
 
+//finds one post
 router.get('/:id', async (req, res) => {
   try {
     const onePost = await Post.findOne({
@@ -60,6 +62,7 @@ router.get('/:id', async (req, res) => {
   }
 })
 
+//this function creates a post as long as the user is logged in
 router.post('/', withAuth, async (req, res) => {
   try {
     const newPost = await Post.create({
@@ -73,6 +76,8 @@ router.post('/', withAuth, async (req, res) => {
   }
 })
 
+
+//this will enable users to update a post 
 router.put('/:id', withAuth, async (req, res) => {
   try {
     const editPost = await Post.update(
@@ -95,6 +100,7 @@ router.put('/:id', withAuth, async (req, res) => {
   }
 })
 
+//delete the users post
 router.delete('/:id', withAuth, async (req, res) => {
   try {
     const deletePost = Post.destroy({
